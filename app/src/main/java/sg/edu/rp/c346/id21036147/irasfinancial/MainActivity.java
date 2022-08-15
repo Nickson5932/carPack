@@ -51,15 +51,24 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONArray jsonArrItems = response.getJSONArray("items");
                     JSONObject firstObj = jsonArrItems.getJSONObject(0);
-                    JSONArray jsonArrInfo = firstObj.getJSONArray("carpark_info");
-                    for (int i = 0; i < jsonArrInfo.length(); i++) {
-                        JSONObject jsonObjForecast = jsonArrInfo.getJSONObject(i);
-                        total = jsonObjForecast.getString("total_lots");
-                        type = jsonObjForecast.getString("lot_type");
-                        available = jsonObjForecast.getString("lots_available");
-                        Carpark carpark = new Carpark(total, type, available);
-                        alCarpark.add(carpark);
+                    JSONArray jsonArrData = firstObj.getJSONArray("carpark_data");
+
+                    for (int j = 0; j < jsonArrData.length(); j++) {
+                        JSONObject secondObj = jsonArrData.getJSONObject(j);
+                        JSONArray jsonArrInfo = secondObj.getJSONArray("carpark_info");
+
+                        for (int i = 0; i < jsonArrInfo.length(); i++) {
+                            JSONObject jsonObjInfo = jsonArrInfo.getJSONObject(i);
+                            // total = jsonObjInfo.getString("carpark_number");
+                            total = jsonObjInfo.getString("total_lots");
+                            type = jsonObjInfo.getString("lot_type");
+                            available = jsonObjInfo.getString("lots_available");
+                            Carpark carpark = new Carpark(total, type, available);
+                            alCarpark.add(carpark);
+                        }
                     }
+
+
                 } catch (JSONException e) {
 
                 }
